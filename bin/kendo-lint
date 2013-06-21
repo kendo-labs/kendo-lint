@@ -8,17 +8,29 @@ var KDOCS = require("../lib/parsedocs.js").kendo_apidoc;
 
 var LINT = require("../lib/lint.js");
 
-var ARGS = require("optimist")
+var OPTIMIST = require("optimist");
+var ARGS = OPTIMIST
     .usage("$0 [options] [files]\n\
-Lint ")
+\n\
+If no file names are passed, read from STDIN.\n\
+It defaults to reading JavaScript (see --html).")
     .describe("json", "Output results in JSON")
     .describe("html", "Force HTML files")
     .describe("js", "Force JavaScript files")
     .boolean("json")
+    .boolean("js")
+    .boolean("html")
+    .boolean("help")
+    .boolean("h")
     .string("parse-docs")
     .boolean("_havestack")
     .wrap(80)
     .argv;
+
+if (ARGS.help || ARGS.h) {
+    UTIL.puts(OPTIMIST.help());
+    process.exit(0);
+}
 
 (function(){
     if (ARGS["parse-docs"]) {
