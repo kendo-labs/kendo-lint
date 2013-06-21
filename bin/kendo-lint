@@ -1,0 +1,134 @@
+#!/usr/bin/env node
+// -*- js -*-
+
+var UTIL = require("util");
+var PATH = require("path");
+var FS = require("fs");
+var KDOCS = require("../lib/parsedocs.js").kendo_apidoc;
+
+var LINT = require("../lib/lint.js");
+
+var ARGS = require("optimist")
+    .usage("$0 [options] [files]\n\
+Lint ")
+    .describe("json", "Output results in JSON")
+    .describe("html", "Force HTML files")
+    .describe("js", "Force JavaScript files")
+    .boolean("json")
+    .string("parse-docs")
+    .boolean("_havestack")
+    .wrap(80)
+    .argv;
+
+(function(){
+    if (ARGS["parse-docs"]) {
+        var docdir = ARGS["parse-docs"];
+        if (!ARGS._havestack) {
+            // relaunch with sufficient stack size
+            var CP = require("child_process");
+            var p = CP.spawn(process.argv[0], [
+                "--stack_size=100000",
+                process.argv[1],
+                "--parse-docs", docdir,
+                "--_havestack"
+            ], {
+                cwd: docdir
+            });
+            p.stdout.on("data", function(data){ UTIL.print(data) });
+            p.stderr.on("data", function(data){ UTIL.print(data) });
+            p.stdout.on("end", function(){
+                console.log("*** Done");
+                process.exit(0);
+            });
+            return;
+        }
+        var glob = require("glob");
+        var pattern = PATH.join("api", "{web,dataviz,mobile,framework}", "**", "*.md");
+        glob(pattern, function(err, files){
+            files.forEach(function(filename){
+                console.log("Parsing API doc: " + filename);
+                KDOCS.parse(filename);
+            });
+            var output = PATH.join(__dirname, "..", "lib", "api.json");
+            FS.writeFileSync(output, JSON.stringify(KDOCS.components), { encoding: "utf8" });
+            console.log("Wrote " + output);
+        });
+        return;
+    }
+
+    KDOCS.initialize();
+
+    function getType(filename) {
+        if (ARGS.js) return "js";
+        if (ARGS.html) return "html";
+        if (!filename) return "js";
+        return (/\.html?$/i.test(filename) ? "html"
+                : /\.js$/i.test(filename) ? "js"
+                : null);
+    }
+
+    function doFile(code, filename, callback) {
+        var results = [];
+        switch (getType(filename)) {
+          case "js":
+            LINT.lint_javascript_file(code, filename, results);
+            break;
+          case "html":
+            LINT.lint_html_file(code, filename, results);
+            break;
+          default:
+            return callback(new Error("I don't know how to parse " + filename));
+        }
+        return callback(null, results);
+    }
+
+    function readFile(filename, callback) {
+        if (filename) {
+            FS.readFile(filename, { encoding: "utf8" }, callback);
+        } else {
+            var input = "";
+            process.stdin.resume();
+            process.stdin.setEncoding("utf8");
+            process.stdin
+                .on("data", function(chunk){ input += chunk })
+                .on("end", function(){ callback(null, input) });
+        }
+    }
+
+    var files = ARGS._.slice();
+    if (files.length == 0) files.push(null); // read from STDIN
+    var results = [], count = files.length;
+
+    files.forEach(function(filename){
+        readFile(filename, function(err, code){
+            if (err) {
+                UTIL.error(err + "");
+                process.exit(1);
+            }
+            doFile(code, filename, function(err, ret){
+                results.push.apply(results, ret);
+                if (!ARGS.json) {
+                    ret.forEach(function(err){
+                        if (err.line != null && err.col != null) {
+                            UTIL.puts(err.filename + "[" + err.line + "," + err.col + "]: " + err.message);
+                        }
+                        else if (err.line != null) {
+                            UTIL.puts(err.filename + "[" + err.line + "]: " + err.message);
+                        }
+                        else {
+                            UTIL.puts(err.filename + ": " + err.message);
+                        }
+                    });
+                }
+                if (--count == 0) finished();
+            });
+        });
+    });
+
+    function finished() {
+        if (ARGS.json) {
+            UTIL.print(JSON.stringify(results, null, 2));
+        }
+    }
+
+})();

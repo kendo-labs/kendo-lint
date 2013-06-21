@@ -1,0 +1,11 @@
+{
+    "name": "kendo-lint",
+    "version": "0.0.1",
+    "dependencies": {
+        "uglify-js"      : "~2.3.0",
+        "cheerio"        : "~0.10.8",
+        "glob"           : "~3.2.0",
+        "markdown"       : "",
+        "optimist"       : ""
+    }
+}
