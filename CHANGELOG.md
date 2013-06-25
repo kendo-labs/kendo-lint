@@ -1,3 +1,7 @@
+# 0.0.6
+
+Merge Markdown fix and update docs
+
 # 0.0.5
 
 Added npm package
