@@ -22,7 +22,7 @@ kendoLint has not been tested against any other versions of these libraries. You
 
 ## Installation
 
-	npm install kendo-lint --save-dev
+	npm install -g kendo-lint
 
 ## Usage
 
