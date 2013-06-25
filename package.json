@@ -1,14 +1,31 @@
 {
-    "name": "kendo-lint",
-    "version": "0.0.2",
-    "dependencies": {
-        "uglify-js"      : "~2.3.0",
-        "cheerio"        : "~0.10.8",
-        "glob"           : "~3.2.0",
-        "markdown"       : "",
-        "optimist"       : ""
-    },
-    "bin" : {
-    	"kendo-lint": "./bin/kendo-lint"
-    }
+  "name": "kendoLint",
+  "version": "0.0.3",
+  "description": "'A static analysis (linting) tool that checks your usage of Kendo UI objects'",
+  "main": "bin/kendo-lint",
+  "dependencies": {
+    "cheerio": "~0.10.8",
+    "glob": "~3.2.1",
+    "markdown": "~0.4.0",
+    "optimist": "~0.5.2",
+    "uglify-js": "~2.3.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "kendo-lint '$(this).kendoSplitter()'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kendo-labs/kendoLint.git"
+  },
+  "keywords": [
+    "linter",
+    "static",
+    "analysis",
+    "javascript"
+  ],
+  "author": "Kendo UI",
+  "license": "Apache 2.0",
+  "gitHead": "38ba28cf13ec8d0879345e78df24d0441c82af0a",
+  "readmeFilename": "README.md"
 }
