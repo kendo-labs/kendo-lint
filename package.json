@@ -1,8 +1,8 @@
 {
   "name": "kendo-lint",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "'A static analysis (linting) tool that checks your usage of Kendo UI objects'",
-  "main": "./bin/kendo-lint",
+  "main": "bin/kendo-lint",
   "dependencies": {
     "cheerio": "~0.10.8",
     "glob": "~3.2.1",
@@ -17,6 +17,9 @@
   "repository": {
     "type": "git",
     "url": "git://github.com/kendo-labs/kendoLint.git"
+  },
+  "bin": {
+    "kendo-lint": "bin/kendo-lint"
   },
   "keywords": [
     "linter",
