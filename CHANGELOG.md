@@ -1,3 +1,8 @@
+# 0.0.7
+
+- Add public API and docs
+- GitHub Repo rename
+
 # 0.0.6
 
 Merge Markdown fix and update docs

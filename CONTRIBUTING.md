@@ -26,7 +26,7 @@ If you don't use a topic branch, we may ask you to re-do your pull request on a 
 
 #### Branch from "dev" not "master"
 
-The "master" branch of the [PROJECT NAME] repository is for production release code, and documentation updates only. Never create a pull request from the master branch. Always create a branch for your work from the "dev" branch. This will facilitate easier pull request management for the continuous work that is done in the dev branch.
+The "master" branch of the kendo-lint repository is for production release code, and documentation updates only. Never create a pull request from the master branch. Always create a branch for your work from the "dev" branch. This will facilitate easier pull request management for the continuous work that is done in the dev branch.
 
 #### Squash your commits
 

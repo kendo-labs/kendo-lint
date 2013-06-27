@@ -1,14 +1,14 @@
-# kendoLint
+# kendo-lint
 
-## About kendoLint
+## About kendo-lint
 
 A static analysis (linting) tool that checks your usage of Kendo UI objects... automatically!
 
 ## Compatibility and Requirements
 
-kendoLint was designed to inspect your Kendo UI configurations in a terminal environment with Node.js
+kendo-lint was designed to inspect your Kendo UI configurations in a terminal environment with Node.js
 
-kendoLint currently depends on the following libraries:
+kendo-lint currently depends on the following libraries:
 
 - Node
 - NPM
@@ -18,7 +18,7 @@ kendoLint currently depends on the following libraries:
 - Markdown
 - Optimist
 
-kendoLint has not been tested against any other versions of these libraries. You may find that versions other than these are compatible with kendoLint, but we make no claims to support those version, nor can we troubleshoot issues that arise when using those versions.
+kendo-lint has not been tested against any other versions of these libraries. You may find that versions other than these are compatible with kendo-lint, but we make no claims to support those version, nor can we troubleshoot issues that arise when using those versions.
 
 ## Installation
 
@@ -104,13 +104,13 @@ stored in `lib/api.json`.  To update this file, pass `--parse-docs
 
 ## How to Contribute
 
-If you would like to contribute to kendoLint's source code, please read the [guidelines for pull requests and contributions] CONTRIBUTING.md). Following these guidelines will help make your contributions easier to bring in to the next release.
+If you would like to contribute to kendo-lint's source code, please read the [guidelines for pull requests and contributions] CONTRIBUTING.md). Following these guidelines will help make your contributions easier to bring in to the next release.
 
 ## Getting Help
 
 Use this section to list ways that a developer can obtain help or support for this project, for instance, Stack Overflow. Make sure to also leave the following section:
 
-As a part of Kendo UI Labs, kendoLint is intended to be a community-run project, and not an official part of any Kendo UI SKU (Web, DataViz, Mobile or Complete). As such, this project is not a supported part of Kendo UI, and is not covered under the support agreements for Kendo UI license holders. Please do not create support requests for this project, as these will be immediately closed and you'll be directed to post your question on a community forum.
+As a part of Kendo UI Labs, kendo-lint is intended to be a community-run project, and not an official part of any Kendo UI SKU (Web, DataViz, Mobile or Complete). As such, this project is not a supported part of Kendo UI, and is not covered under the support agreements for Kendo UI license holders. Please do not create support requests for this project, as these will be immediately closed and you'll be directed to post your question on a community forum.
 
 ## Release Notes
 
