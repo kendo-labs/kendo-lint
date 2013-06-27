@@ -22,9 +22,9 @@ kendoLint has not been tested against any other versions of these libraries. You
 
 ## Installation
 
-	npm install -g kendo-lint
+    npm install -g kendo-lint
 
-## Usage
+## Usage (command-line)
 
     kendo-lint [options] [files]
 
@@ -35,6 +35,37 @@ When file names are passed, the type will be determined from the
 extension, but it can be forced with either `--js` or `--html`.
 
 To output results as a JSON array, pass `--json`.
+
+## API
+
+    var kendoLint = require("kendo-lint");
+
+### lintJS(code, filename)
+
+    var results = kendoLint.lintJS(code, filename);
+
+Use this if you already have the code in memory.  No file is read, the
+`filename` argument is just included in the results array, which will
+contain objects like this:
+
+    { filename: filename,
+      message: "Warning message",
+      line: the line number,
+      col: the column }
+
+### lintJSFile(filename, callback)
+
+Pass the full path to the file to lint.  Your callback is invoked with
+two arguments, `error` and `results`.
+
+### lintHTML(code, filename)
+
+Use this to lint HTML code.  It's similar to `lintJS`, except that for
+the time being we cannot report line/column information.
+
+### lintHTMLFile(filename, callback)
+
+Similar to `lintJSFile`, but for HTML code.
 
 ## What it does
 

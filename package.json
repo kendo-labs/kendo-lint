@@ -2,7 +2,7 @@
   "name": "kendo-lint",
   "version": "0.0.6",
   "description": "'A static analysis (linting) tool that checks your usage of Kendo UI objects'",
-  "main": "bin/kendo-lint",
+  "main": "lib/public-api.js",
   "dependencies": {
     "cheerio": "~0.10.8",
     "glob": "~3.2.1",
