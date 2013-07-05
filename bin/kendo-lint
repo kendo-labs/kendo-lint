@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 // -*- js -*-
-
 var UTIL = require("util");
 var PATH = require("path");
 var FS = require("fs");
@@ -23,6 +22,7 @@ It defaults to reading JavaScript (see --html).")
     .boolean("help")
     .boolean("h")
     .string("parse-docs")
+    .string("reporter")
     .boolean("_havestack")
     .wrap(80)
     .argv;
@@ -107,6 +107,14 @@ if (ARGS.help || ARGS.h) {
         }
     }
 
+    function loadReporter(fp) {
+        try {
+            return require(fp).reporter;
+        } catch (err) {
+            return null;
+        }
+    }
+
     var files = ARGS._.slice();
     if (files.length == 0) files.push(null); // read from STDIN
     var results = [], count = files.length;
@@ -119,7 +127,7 @@ if (ARGS.help || ARGS.h) {
             }
             doFile(code, filename, function(err, ret){
                 results.push.apply(results, ret);
-                if (!ARGS.json) {
+                if (!ARGS.json && !ARGS.reporter) {
                     ret.forEach(function(err){
                         if (err.line != null && err.col != null) {
                             UTIL.puts(err.filename + "[" + err.line + "," + err.col + "]: " + err.message);
@@ -138,8 +146,25 @@ if (ARGS.help || ARGS.h) {
     });
 
     function finished() {
-        if (ARGS.json) {
-            UTIL.print(JSON.stringify(results, null, 2));
+        var reporter;
+        
+        // use a custom reporter if one is specified - ignores JSON flag
+        if (ARGS.reporter) {
+            ARGS.reporter = PATH.resolve(process.cwd(), ARGS.reporter);
+            reporter = loadReporter(ARGS.reporter);
+
+            if (reporter === null) {
+                UTIL.error("Can't load reporter file: " + ARGS.reporter);
+                process.exit(2);
+            }
+            
+            reporter(results);
+        } 
+        else {
+            // if no reporter - check for a JSON flag
+            if (ARGS.json) {
+                UTIL.print(JSON.stringify(results, null, 2));
+            }
         }
     }
 
