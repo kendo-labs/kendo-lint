@@ -12,7 +12,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "kendo-lint '$(this).kendoSplitter()'"
+    "test": "kendo-lint test/test.js --reporter='test/reporter.js'"
   },
   "repository": {
     "type": "git",
