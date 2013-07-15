@@ -13,7 +13,6 @@ kendo-lint currently depends on the following libraries:
 - Node
 - NPM
 - UglifyJS
-- Cheerio
 - Glob
 - Markdown
 - Optimist
@@ -90,10 +89,16 @@ For HTML it searches MVVM constructs, like:
 ```
 
 and tries to validate the widget name and given options against known
-API.
+API.  However, <script> tags are treated specially in HTML,
+specifically:
 
-Currently we cannot report line/column numbers for HTML (using the
-Cheerio NodeJS module which doesn't give that information).
+- if there is no `src` attribute, and there is no `type` or there is a
+  `type` that indicates that the content is JavaScript, then the
+  content will be linted via `lintJSFile`.
+
+- if there is a `type` attribute containing the string "template" it
+  will assume that the template generates some kind of HTML, so the
+  content will be linted via `lintHTMLFile`.
 
 ### To update the API documentation
 
