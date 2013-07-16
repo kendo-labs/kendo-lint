@@ -1,3 +1,8 @@
+# 0.1
+
+- Added custom HTML parser in order to emit file location info
+- Updated API docs
+
 # 0.0.7
 
 - Add public API and docs
