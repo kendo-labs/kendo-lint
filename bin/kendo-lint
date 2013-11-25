@@ -5,6 +5,7 @@ var UTIL = require("util");
 var PATH = require("path");
 var FS = require("fs");
 var KDOCS = require("../lib/parsedocs.js").kendo_apidoc;
+var BUNDLE = require("../lib/bundle.js");
 
 var LINT = require("../lib/lint.js");
 
@@ -17,6 +18,7 @@ It defaults to reading JavaScript (see --html).")
     .describe("json", "Output results in JSON")
     .describe("html", "Force HTML files")
     .describe("js", "Force JavaScript files")
+    .describe("build-kendo", "Build minimal Kendo UI for the specified files.  For this argument, pass the path to your Kendo UI directory.")
     .boolean("json")
     .boolean("js")
     .boolean("html")
@@ -68,8 +70,6 @@ if (ARGS.help || ARGS.h) {
         return;
     }
 
-    KDOCS.initialize();
-
     function getType(filename) {
         if (ARGS.js) return "js";
         if (ARGS.html) return "html";
@@ -109,6 +109,27 @@ if (ARGS.help || ARGS.h) {
 
     var files = ARGS._.slice();
     if (files.length == 0) files.push(null); // read from STDIN
+
+    if (ARGS["build-kendo"]) {
+        var js_files = [], html_files = [];
+        files.forEach(function(file){
+            switch (getType(file)) {
+              case "html" : html_files.push(file); break;
+              case "js"   : js_files.push(file); break;
+              default:
+                UTIL.error("Unsupported file type: " + file);
+            }
+        });
+        var code = BUNDLE.build_kendo({
+            js_files   : js_files,
+            html_files : html_files,
+            kendo_dir  : ARGS["build-kendo"],
+        });
+        UTIL.puts(code);
+        return;
+    }
+
+    KDOCS.initialize();
     var results = [], count = files.length;
 
     files.forEach(function(filename){
