@@ -5,11 +5,12 @@
   "main": "lib/public-api.js",
   "dependencies": {
     "glob": "~3.2.1",
-    "markdown": "~0.4.0",
     "optimist": "~0.5.2",
     "uglify-js": "~2.3.6"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "markdown": "~0.4.0"
+  },
   "scripts": {
     "test": "kendo-lint '$(this).kendoSplitter()'"
   },
