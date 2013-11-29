@@ -116,6 +116,7 @@ if (ARGS.help || ARGS.h) {
     if (files.length == 0) files.push(null); // read from STDIN
 
     if (ARGS["build-kendo"]) {
+        var kendo_dir = ARGS["build-kendo"];
         var js_files = [], html_files = [];
         files.forEach(function(file){
             switch (getType(file)) {
@@ -125,9 +126,13 @@ if (ARGS.help || ARGS.h) {
                 UTIL.error("Unsupported file type: " + file);
             }
         });
-        var code = BUNDLE.build_kendo({
+        var usage = BUNDLE.widget_usage({
             js_files   : js_files,
             html_files : html_files,
+            category   : BUNDLE.kendo_category(kendo_dir),
+        });
+        var code = BUNDLE.build_kendo({
+            components : usage.components,
             kendo_dir  : ARGS["build-kendo"],
         });
         if (ARGS.o) {
