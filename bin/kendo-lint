@@ -79,7 +79,7 @@ if (ARGS.help || ARGS.h) {
         if (ARGS.js) return "js";
         if (ARGS.html) return "html";
         if (!filename) return "js";
-        return (/\.html?$/i.test(filename) ? "html"
+        return (/\.(html?|aspx?|cshtml|master|ascx|php)$/i.test(filename) ? "html"
                 : /\.js$/i.test(filename) ? "js"
                 : null);
     }
