@@ -1,6 +1,6 @@
 {
   "name": "kendo-lint",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "'A static analysis (linting) tool that checks your usage of Kendo UI objects'",
   "main": "lib/public-api.js",
   "dependencies": {
