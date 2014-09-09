@@ -64,7 +64,7 @@ if (ARGS.help || ARGS.h) {
             return;
         }
         var glob = require("glob");
-        var pattern = PATH.join("api", "{web,dataviz,mobile,framework}", "**", "*.md");
+        var pattern = PATH.join("api", "javascript", "**", "*.md");
         glob(pattern, function(err, files){
             files.forEach(function(filename){
                 console.log("Parsing API doc: " + filename);
